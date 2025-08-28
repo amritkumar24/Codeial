@@ -1,11 +1,17 @@
-// Import the express
+require("dotenv").config();
+
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const db = require("./config/mongoose.js");
+const cookieParser = require("cookie-parser");
+
 // Creating express app
 const app = express();
 // Define a port
-const PORT = 8000;
+const PORT = process.env.PORT;
 
+app.use(express.urlencoded());
+app.use(cookieParser());
 app.use(express.static("./assets"));
 app.use(expressLayouts);
 
