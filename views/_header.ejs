@@ -1,3 +1,27 @@
-<header>
-    Page Header
+<link rel="stylesheet" href="/css/header.css">
+
+<header class="site-header">
+    <div class="header-left">
+        <h1 class="header-title">Codeial</h1>
+    </div>
+
+    <nav class="header-right">
+        <ul class="nav-links">
+            <% if(locals.user) { %>
+                <li class="nav-item">
+                    <a href="/users/profile" class="nav-link"><%= user.name %></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/users/sign-out" class="nav-link">Sign Out</a>
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a href="/users/sign-in" class="nav-link">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/users/sign-up" class="nav-link">Sign Up</a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
 </header>

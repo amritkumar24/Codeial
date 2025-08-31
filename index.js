@@ -4,16 +4,38 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose.js");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const passport = require("passport");
+const passportLocal = require("./config/passport-local-strategy.js");
+const MongoStore = require("connect-mongo");
+const path = require("path");
 
-// Creating express app
 const app = express();
-// Define a port
+
 const PORT = process.env.PORT;
 
-app.use(express.urlencoded());
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static("./assets"));
 app.use(expressLayouts);
+
+app.use(session({
+    name: "codeial",
+    secret: "blahsomething",
+    saveUninitialized: false,
+    resave: false,
+    store: MongoStore.create({
+        client: db.getClient()
+    }),
+    cookie: {
+        maxAge: (1000*60*100),
+    }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser);
 
 app.set("layout extractStyles", true);
 app.set("layout extractScripts", true);

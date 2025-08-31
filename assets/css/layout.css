@@ -1,4 +1,16 @@
 body {
-    margin: 0;
-    /* text-align: center; */
+  margin: 0;
 }
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.app-wrapper .app-main {
+  flex: 1;
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+/*# sourceMappingURL=layout.css.map */

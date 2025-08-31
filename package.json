@@ -10,15 +10,21 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"npm run scss\" \"node index.js\"",
+    "scss": "sass --watch assets/scss:assets/css"
   },
   "dependencies": {
+    "concurrently": "^9.2.1",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
-    "mongoose": "^8.18.0"
+    "express-session": "^1.18.2",
+    "mongoose": "^8.18.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "sass": "^1.91.0"
   }
 }

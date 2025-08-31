@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title><%= title %></title>
-        <link rel="stylesheet" href="/css/layout.css">
-        <%- style %>
-    </head>
-    <body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %> | Codeial</title>
 
-        <%- include("_header") %>
-        
+    <!-- Global stylesheet -->
+    <link rel="stylesheet" href="/css/layout.css" />
+
+    <!-- Page-specific styles (injected dynamically) -->
+    <%- style %>
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <!-- Header -->
+      <%- include("_header") %>
+
+      <!-- Main content -->
+      <main class="app-main">
         <%- body %>
+      </main>
 
-        <%- include("_footer") %>
-        
-        <%- script %>
-    </body>
+      <!-- Footer -->
+      <%- include("_footer") %>
+    </div>
+
+    <!-- Page-specific scripts (injected dynamically) -->
+    <%- script %>
+  </body>
 </html>
