@@ -15,12 +15,37 @@ module.exports.create = async function(req, res){
             post.comments.push(comment);
             await post.save();
 
-            const backURL = res.get("referer") || "/";
-            res.redirect(backURL);
+            const backURL = req.get("referer") || "/";
+            return res.redirect(backURL);
         }
     }catch(err){
         console.log("Error in creating comment");
-        const backURL = res.get("referer") || "/";
-        res.redirect(backURL);
+        const backURL = req.get("referer") || "/";
+        return res.redirect(backURL);
     }
 };
+
+module.exports.destroy = async function(req, res) {
+    try{
+        const comment = await Comment.findById(req.params.id);
+
+        if(comment.user.toString() !== req.user.id){
+            const backURL = req.get("referer") || "/";
+            return res.redirect(backURL);
+        }
+
+        const postId = comment.post;
+
+        await comment.deleteOne();
+
+        await Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+
+        const backURL = req.get("referer") || "/";
+        return res.redirect(backURL);
+        
+    }catch(err){
+        console.log("Error in deleting the comment");
+        const backURL = req.get("referer") || "/";
+        res.redirect(backURL);
+    }
+}
