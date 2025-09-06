@@ -10,45 +10,18 @@
     <% } %>
 
     <div id="posts-list-container">
-        <ul>
-            <% for(post of posts){ %>
-                <li>
-                    <p>
-                        <%= post.content %>
-                        <br>
-                        <small><%= post.user.name %></small>
-                        <% if(locals.user && locals.user.id == post.user.id){%>
-                            <a href="/posts/destroy/<%= post.id %>">Delete</a>   
-                        <% } %>
-                    </p>
-                    <div class="post-comments">
-                        <form action="/comments/create" method="post">
-                            <input type="text" name="content" placeholder="Type here to add comment..." required>
-                            <input type="hidden" name="post" value="<%= post._id %>" >
-                            <input type="submit" value="Add comments">
-                        </form>
-                        
-                        <div>
-                            <ul>
-                                <% for(comment of post.comments) { %>
-                                    <li>
-                                        <p>
-                                            <%= comment.content %>
-                                            <br>
-                                            <small>By: <%= comment.user.name %> </small>
-                                            <% if(locals.user && comment.user.id === locals.user.id){ %>
-                                                <a href="/comments/destroy/<%= comment.id %>">Delete</a>
-                                            <% } %>
-                                        </p>
-                                    </li>
-                                <% } %>
-                            </ul>
-                        </div>  
-                    </div>
-                </li>
-            <% } %>
-        </ul>
+        <%- include("_post.ejs") -%>
     </div>
+</section>
+
+<section id="user-friends">
+    <h4>Friends</h4>
+    <% for(u of all_users){ %>
+        <p>
+            <a href="/users/profile/<%= u.id %>"><%= u.name %> </a>
+        </p>
+    <% } %>
+
 </section>
 
   
