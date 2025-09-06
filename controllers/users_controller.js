@@ -8,6 +8,22 @@ module.exports.profile = async function(req, res){
     });
 };
 
+module.exports.update = async function(req, res){
+    try{
+        if(req.user.id == req.params.id){
+            await User.findByIdAndUpdate(req.params.id, req.body);
+            const backURL = req.get("referer") || "/";
+            return res.redirect(backURL);
+        } else {
+            return res.status(401).send("Unauthorized");
+        }
+    }catch(err){
+        console.log("Error in updating the profile");
+        const backURL = req.get("referer") || "/";
+        return res.redirect(backURL);
+    }
+}
+
 module.exports.signUp = function(req, res){
     if(req.isAuthenticated()){
         return res.redirect("/users/profile");
