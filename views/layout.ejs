@@ -7,15 +7,19 @@
 
     <!-- Global stylesheet -->
     <link rel="stylesheet" href="/css/layout.css" />
-
+    <!-- Noty CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta-deprecated/lib/noty.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta-deprecated/lib/noty.min.css" rel="stylesheet">
+    
     <!-- Page-specific styles (injected dynamically) -->
     <%- style %>
   </head>
   <body>
+    
     <div class="app-wrapper">
       <!-- Header -->
       <%- include("_header") %>
-
+      
       <!-- Main content -->
       <main class="app-main">
         <%- body %>
@@ -27,5 +31,15 @@
 
     <!-- Page-specific scripts (injected dynamically) -->
     <%- script %>
+    <script>
+      <% if(flash.success && flash.success.length>0){ %>
+        new Noty({
+          type: "success",
+          layout: "topRight",
+          text: "<%= flash.success %>",
+          timeout: 3000
+        }).show();
+      <% } %>
+    </script>
   </body>
 </html>

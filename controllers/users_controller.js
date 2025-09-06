@@ -65,15 +65,16 @@ module.exports.create = async function(req, res){
 };
 
 module.exports.createSession = function(req, res){
+    req.flash("success", "You are logged in");
     res.redirect("/");
 };
 
 module.exports.destroySession = function(req, res){
+    req.flash("success", "You are logged out");
     req.logout(function(err){
         if(err){
             return next(err);
         }
     });
-
     return res.redirect("/");
 };
