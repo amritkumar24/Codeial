@@ -4,7 +4,11 @@
   <h1 class="home-title">Home</h1>
 
   <div class="home-content">
+
+    <!-- Post section -->
     <section id="feed-posts" class="feed-section">
+
+      <!-- Post Form -->
       <h4 class="section-title">Posts</h4>
       <% if(locals.user){ %>
         <form action="/posts/create" method="post" id="new-post-form" class="post-form">
@@ -12,6 +16,7 @@
           <input type="submit" value="Post">
         </form>
       <% } %>
+
       <div id="posts-list-container" class="posts-list">
         <%- include("_post.ejs") -%>
       </div>
@@ -29,4 +34,6 @@
     </section>
   </div>
 </div>
+
+<script src="/js/homePost.js"></script>
 

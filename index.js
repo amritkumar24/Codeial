@@ -17,6 +17,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(expressLayouts);

@@ -1,4 +1,4 @@
-<ul>
+<ul id="posts-list">
     <% for(post of posts){ %>
         <li>
             <p>
@@ -8,8 +8,8 @@
                         <%= post.user.name %>
                     </small>
                     <% if(locals.user && locals.user.id==post.user.id){%>
-                        <a href="/posts/destroy/<%= post.id %>">Delete</a>
-                        <% } %>
+                        <a href="/posts/destroy/<%= post.id %>" class="delete-post">Delete</a>
+                    <% } %>
             </p>
             <div class="post-comments">
                 <form action="/comments/create" method="post">

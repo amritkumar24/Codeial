@@ -8,12 +8,23 @@ module.exports.create = async function(req, res){
             user: req.user._id
         });
 
-        const backURL = res.get("referer") || "/";
-        res.redirect(backURL);
+        return res.status(201).json({
+            success: true,
+            post: newPost, 
+            message: "Post created successfully"
+        });
+
+        // const backURL = res.get("referer") || "/";
+        // res.redirect(backURL);
     }catch(err){
         console.log("Error in creating post");
-        const backURL = req.get("referer") || "/";
-        res.redirect(backURL);
+
+        res.status(500).json({
+            success: false,
+            message: "Error in creating Post"
+        });
+        // const backURL = req.get("referer") || "/";
+        // res.redirect(backURL);
     };
 };
 
