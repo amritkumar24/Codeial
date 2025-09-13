@@ -24,6 +24,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
     "mongoose": "^8.18.0",
+    "multer": "^2.0.2",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "sass": "^1.91.0"

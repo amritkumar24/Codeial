@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const path = require("path");
+const AVATAR_URL = "/uploads/users/avatars";
+const fs = require("fs");
 
 module.exports.profile = async function(req, res){
     const user = await User.findById(req.params.id);
@@ -8,21 +11,67 @@ module.exports.profile = async function(req, res){
     });
 };
 
-module.exports.update = async function(req, res){
-    try{
-        if(req.user.id == req.params.id){
-            await User.findByIdAndUpdate(req.params.id, req.body);
-            const backURL = req.get("referer") || "/";
-            return res.redirect(backURL);
+// module.exports.update = async function(req, res){
+//     try{
+//         if(req.user.id == req.params.id){
+//             await User.findByIdAndUpdate(req.params.id, req.body);
+//             const backURL = req.get("referer") || "/";
+//             return res.redirect(backURL);
+//         } else {
+//             return res.status(401).send("Unauthorized");
+//         }
+//     }catch(err){
+//         console.log("Error in updating the profile");
+//         const backURL = req.get("referer") || "/";
+//         return res.redirect(backURL);
+//     }
+// }
+
+module.exports.update = async function (req, res) {
+    try {
+        if (req.user.id == req.params.id) {
+            
+            // run multer middleware
+            User.uploadedAvatar(req, res, async function (err) {
+                if (err) {
+                    console.log("Multer error: ", err);
+                }
+
+                // find the user
+                let user = await User.findById(req.params.id);
+
+                // update text fields
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                // if file was uploaded, update avatar field
+                if (req.file) {
+                    if(user.avatar){
+                        let oldPath = path.join(__dirname, "..", "assets", user.avatar);
+                        if(fs.existsSync(oldPath)){
+                            fs.unlinkSync(oldPath);
+                        }
+                    }
+                    user.avatar = path.join(AVATAR_URL, req.file.filename).replace(/\\/g, "/");
+                }
+
+
+                await user.save();
+
+                const backURL = req.get("referer") || "/";
+                return res.redirect(backURL);
+            });
+
         } else {
             return res.status(401).send("Unauthorized");
         }
-    }catch(err){
-        console.log("Error in updating the profile");
+    } catch (err) {
+        console.log("Error in updating the profile", err);
         const backURL = req.get("referer") || "/";
         return res.redirect(backURL);
     }
-}
+};
+
 
 module.exports.signUp = function(req, res){
     if(req.isAuthenticated()){
