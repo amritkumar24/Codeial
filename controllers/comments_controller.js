@@ -1,5 +1,7 @@
 const Comment = require("../models/comment");
 const Post = require("../models/post");
+const User = require("../models/user");
+const commentMailer = require("../mailers/comment_mailer");
 
 module.exports.create = async function(req, res){
     try{
@@ -14,6 +16,14 @@ module.exports.create = async function(req, res){
 
             post.comments.push(comment);
             await post.save();
+
+            const user = await User.findById(req.user._id);
+
+            commentMailer.newComment({
+                userEmail: user.email,        
+                userName: user.name,                  
+                content: comment.content      
+            });
 
             const backURL = req.get("referer") || "/";
             return res.redirect(backURL);
