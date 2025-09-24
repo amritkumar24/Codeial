@@ -11,6 +11,20 @@
                         <a href="/posts/destroy/<%= post.id %>" class="delete-post">Delete</a>
                     <% } %>
             </p>
+
+            <div class="post-likes">
+                <form action="/likes/toggle" method="POST" style="display:inline;">
+                    <!-- ID of the post -->
+                    <input type="hidden" name="id" value="<%= post._id %>">
+                    <!-- Type of likeable -->
+                    <input type="hidden" name="type" value="Post">
+                    
+                    <button type="submit">
+                        👍 Like (<%= post.likes ? post.likes.length : 0 %>)
+                    </button>
+                </form>
+            </div>
+            
             <div class="post-comments">
                 <form action="/comments/create" method="post">
                     <input type="text" name="content" placeholder="Type here to add comment..." required>

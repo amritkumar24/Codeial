@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const Like = require("../models/like");
 
 module.exports.create = async function(req, res){
     try{
@@ -36,6 +37,8 @@ module.exports.destroy = async function(req, res){
             const backURL = res.get("referer") || "/";
             return res.redirect(backURL);
         }
+
+         await Like.deleteMany({ likeable: post._id, onModel: "Post" });
 
         await Comment.deleteMany({post: post._id});
 
