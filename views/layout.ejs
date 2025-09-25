@@ -26,9 +26,14 @@
         <%- body %>
       </main>
 
+      <%- include("_chatbox") %>
+
       <!-- Footer -->
       <%- include("_footer") %>
     </div>
+
+    <!-- Socket.io client -->
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
 
     <!-- Page-specific scripts (injected dynamically) -->
     <%- script %>

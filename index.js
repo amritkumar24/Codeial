@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+const http = require("http");
+const socketConfig = require("./config/socket.js");
+
+
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose.js");
@@ -55,7 +59,27 @@ app.set("views", "./views");
 app.use("/", require("./routes/index.js"));
 
 
-// Starting the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// Create raw HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.io
+const io = socketConfig.init(server);
+
+// Handle Socket.io connections
+io.on("connection", (socket) => {
+    console.log("A user connected");
+
+    socket.on("chat message", (msg) => {
+        console.log("Message received:", msg);
+        io.emit("chat message", msg);
+    });
+
+    socket.on("disconnect", () => {
+        console.log("A user disconnected");
+    });
+});
+
+// Start the server
+server.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
