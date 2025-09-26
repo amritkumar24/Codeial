@@ -5,6 +5,8 @@ const socketConfig = require("./config/socket.js");
 
 
 const express = require("express");
+const morgan = require("morgan");
+const env = require("./config/environment.js");
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose.js");
 const cookieParser = require("cookie-parser");
@@ -19,10 +21,12 @@ const flash = require("connect-flash");
 const customMware = require("./config/middleware.js");
 
 const app = express();
+const rev = require("./config/revHelper.js");
+app.locals.rev = rev;
 
 const PORT = process.env.PORT;
 
-app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, env.asset_path)));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -30,7 +34,7 @@ app.use(expressLayouts);
 
 app.use(session({
     name: "codeial",
-    secret: "blahsomething",
+    secret: env.session_cookie_key,
     saveUninitialized: false,
     resave: false,
     store: MongoStore.create({
@@ -48,6 +52,7 @@ app.use(flash());
 app.use(customMware.setFlash);
 
 app.use(passport.setAuthenticatedUser);
+app.use(morgan(env.morgan.mode, env.morgan.options));
 
 app.set("layout extractStyles", true);
 app.set("layout extractScripts", true);

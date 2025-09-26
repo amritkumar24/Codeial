@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/css/chatbox.css">
+<link rel="stylesheet" href="/assets/css/<%= rev("chatbox.css") %>">
 
 <div id="chat-container">
   <div id="chat-header">Chat</div>
@@ -6,4 +6,4 @@
   <input type="text" id="chat-input" placeholder="Type a message..." />
 </div>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/chatbox.js"></script>
+<script src="/assets/js/<%= rev("chatbox.js") %>"></script>

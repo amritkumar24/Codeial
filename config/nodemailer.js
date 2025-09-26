@@ -1,11 +1,6 @@
 const nodemailer = require("nodemailer");
+const env = require("./environment.js");
 
-let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.GMAIL_APP_USER,
-        pass: process.env.GMAIL_APP_PASSWORD
-    }
-});
+let transporter = nodemailer.createTransport(env.smtp);
 
 module.exports = transporter;

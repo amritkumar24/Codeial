@@ -10,8 +10,11 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run scss\" \"node index.js\"",
-    "scss": "sass --watch assets/scss:assets/css"
+    "start": "npm run prod",
+    "dev": "concurrently \"npm run scss:dev\" \"node index.js\"",
+    "scss:dev": "sass --watch assets/scss:assets/css",
+    "prod": "npm run scss:prod && node index.js",
+    "scss:prod": "sass assets/scss:assets/css --no-source-map --style=compressed"
   },
   "dependencies": {
     "concurrently": "^9.2.1",
@@ -26,13 +29,25 @@
     "jsonwebtoken": "^9.0.2",
     "kue": "^0.11.6",
     "mongoose": "^8.18.0",
+    "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.6",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "rotating-file-stream": "^3.2.7",
     "sass": "^1.91.0",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "del": "^5.1.0",
+    "gulp": "^5.0.1",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-merge-json": "^2.2.1",
+    "gulp-rev": "^11.0.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-uglify": "^3.0.2"
   }
 }
